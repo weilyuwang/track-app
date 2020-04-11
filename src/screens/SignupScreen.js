@@ -7,7 +7,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 
 const SignupScreen = ({ navigation }) => {
     const { state, signup } = useContext(AuthContext);
-    // state format ===  { "errorMessage": "Something went wrong with sign up.", "isSignedIn": false }
+    // state format ===  { "errorMessage": "Something went wrong with sign up."/"", "token": jwttoken/null }
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
