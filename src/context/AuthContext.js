@@ -32,7 +32,7 @@ const signup = (dispatch) => async ({ email, password }) => {
             payload: response.data.token,
         });
 
-        // navigate to main flow screens whenever user signed up / signed in
+        // navigate to main flow screens whenever user has successfully signed up / signed in
         navigate("TrackList");
     } catch (err) {
         dispatch({
