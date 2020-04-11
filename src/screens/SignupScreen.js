@@ -7,6 +7,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 
 const SignupScreen = ({ navigation }) => {
     const { state, signup } = useContext(AuthContext);
+    // state format ===  { "errorMessage": "Something went wrong with sign up.", "isSignedIn": false }
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,7 +38,9 @@ const SignupScreen = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
             />
-            <Spacer />
+            {state.errorMessage ? (
+                <Text style={styles.errorMessage}>{state.errorMessage}</Text>
+            ) : null}
             <Spacer>
                 <Button
                     title="Sign Up"
@@ -73,6 +76,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginBottom: 300,
         marginHorizontal: 10,
+    },
+    errorMessage: {
+        fontSize: 16,
+        color: "red",
+        marginLeft: 10,
+        marginTop: 15,
     },
 });
 
