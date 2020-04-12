@@ -5,7 +5,9 @@ import {
     watchPositionAsync,
 } from "expo-location";
 
-//export our custom hook, given a callback function e.g. addLocation action dispatcher from LocationContext
+//export our custom hook
+// given a callback function e.g. addLocation action dispatcher from LocationContext
+// and a boolean value shouldTrack to decide if we should continue recording user's current coordinates
 export default (shouldTrack, callback) => {
     const [error, setError] = useState(null);
     const [subscriber, setSubscriber] = useState(null);
