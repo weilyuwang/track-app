@@ -5,16 +5,6 @@ import MapView, { Polyline, Circle } from "react-native-maps";
 import { Context as LocationContext } from "../context/LocationContext";
 
 const Map = () => {
-    /* MOCK DATA */
-
-    // let points = [];
-    // for (let i = 0; i < 20; i++) {
-    //     points.push({
-    //         latitude: 43.779157850000004 + i * 0.001 * (Math.random() / 10),
-    //         longitude: -79.41439751673187 + i * 0.001,
-    //     });
-    // }
-
     const {
         state: { currentLocation },
     } = useContext(LocationContext);
@@ -27,7 +17,7 @@ const Map = () => {
         <MapView
             style={styles.map}
             initialRegion={{
-                ...currentLocation.coords,
+                ...currentLocation.coords, //latitude and longtitude
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01,
             }}
