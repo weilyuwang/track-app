@@ -10,11 +10,13 @@ import TrackForm from "../components/TrackForm";
 
 // withNavigationFocus is a higher-order component, will pass a prop `isFocused` to its children
 const TrackCreateScreen = ({ isFocused }) => {
-    const { addLocation } = useContext(LocationContext);
+    const { state, addLocation } = useContext(LocationContext);
 
     // use custom hook to handle location-related aspects
     // pass isFocused var to useLocation hook - to decide if we should continue locating current user
-    const [error] = useLocation(isFocused, addLocation);
+    const [error] = useLocation(isFocused, (location) => {
+        addLocation(location, state.recording);
+    });
 
     return (
         <SafeAreaView>

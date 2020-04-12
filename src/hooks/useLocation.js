@@ -24,7 +24,7 @@ export default (shouldTrack, callback) => {
                     timeInterval: 1000, // once every 1 second
                     distanceInterval: 10, // once every 10 meters
                 },
-                callback
+                callback // takes a location object: (location) => callback(location)
             );
             setSubscriber(sub);
         } catch (err) {
