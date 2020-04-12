@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import Map from "../components/Map";
 import { SafeAreaView } from "react-navigation";
+import { requestPermissionsAsync } from "expo-location";
+import * as Permissions from "expo-permissions";
 
 const TrackCreateScreen = () => {
+    const [error, setError] = useState(null);
+
+    const startWatching = async () => {
+        // try {
+        //     await requestPermissionsAsync();
+        //     // the following requests will be handled by OS automatically based on the user's first action
+        // } catch (err) {
+        //     // if user denies, the flow will fall to catch block
+        //     setError(err);
+        // }
+        const location = await Permissions.askAsync(Permissions.LOCATION);
+        if (location.status !== "granted") {
+            setError("error");
+        }
+    };
+
+    useEffect(() => {
+        startWatching();
+    }, []); //[] means we only want to run startWatching() only once when the screen loads
+
     return (
         <SafeAreaView>
             <Text h2>Create a Track</Text>
             <Map />
+            {error ? <Text>Please enable location services</Text> : null}
         </SafeAreaView>
     );
 };
