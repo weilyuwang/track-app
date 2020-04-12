@@ -29,6 +29,8 @@ const TrackCreateScreen = () => {
         // if (location.status !== "granted") {
         //     setError("error");
         // }
+
+        // function to fetch user's current location data
         await watchPositionAsync(
             {
                 accuracy: Accuracy.BestForNavigation,
