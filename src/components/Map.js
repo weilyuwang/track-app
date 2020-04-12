@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
+import MapView from "react-native-maps";
 
 const Map = () => {
-    return <Text>I am a map</Text>;
+    return <MapView />;
 };
 
 const styles = StyleSheet.create({});
