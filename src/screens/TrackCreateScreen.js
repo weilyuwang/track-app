@@ -12,7 +12,8 @@ const TrackCreateScreen = ({ isFocused }) => {
     const { addLocation } = useContext(LocationContext);
 
     // use custom hook to handle location-related aspects
-    const [error] = useLocation(addLocation);
+    // pass isFocused var to useLocation hook - to decide if we should continue locating current user
+    const [error] = useLocation(isFocused, addLocation);
 
     return (
         <SafeAreaView>
