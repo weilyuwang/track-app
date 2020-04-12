@@ -7,7 +7,7 @@ const authReducer = (state, action) => {
     switch (action.type) {
         case "add_error":
             return { ...state, errorMessage: action.payload };
-        case "signup":
+        case "signin":
             // error out the error message and set the JWT
             return { errorMessage: "", token: action.payload };
         default:
@@ -17,7 +17,6 @@ const authReducer = (state, action) => {
 
 // define actions
 const signup = (dispatch) => async ({ email, password }) => {
-    // make API request to sign up with email and password
     try {
         const response = await trackerApi.post("/signup", {
             email,
@@ -28,7 +27,7 @@ const signup = (dispatch) => async ({ email, password }) => {
         await AsyncStorage.setItem("token", response.data.token);
 
         dispatch({
-            type: "signup",
+            type: "signin",
             payload: response.data.token,
         });
 
@@ -42,12 +41,23 @@ const signup = (dispatch) => async ({ email, password }) => {
     }
 };
 
-const signin = (dispatch) => {
-    return ({ email, password }) => {
-        // try to sign in
-        // handle success by updating state
-        // handle error by showing error message somehow
-    };
+const signin = (dispatch) => async ({ email, password }) => {
+    try {
+        const response = await trackerApi.post("/signin", { email, password });
+        await AsyncStorage.setItem("token", response.data.token);
+
+        dispatch({
+            type: "signin",
+            payload: response.data.token,
+        });
+
+        navigate("TrackList");
+    } catch (err) {
+        dispatch({
+            type: "add_error",
+            payload: "Something went wrong with sign in.",
+        });
+    }
 };
 
 const signout = (dispatch) => {
