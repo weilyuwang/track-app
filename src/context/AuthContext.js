@@ -12,6 +12,8 @@ const authReducer = (state, action) => {
         case "signin":
             // error out the error message and set the JWT
             return { errorMessage: "", token: action.payload };
+        case "signout":
+            return { errorMessage: "", token: null };
         default:
             return state;
     }
@@ -24,7 +26,7 @@ const tryLocalSignin = (dispatch) => async () => {
         dispatch({ type: "signin", payload: token });
         navigate("TrackList");
     } else {
-        navigate("Signup");
+        navigate("Signin");
     }
 };
 
@@ -79,10 +81,11 @@ const signin = (dispatch) => async ({ email, password }) => {
     }
 };
 
-const signout = (dispatch) => {
-    return () => {
-        // somehow sign out
-    };
+// clear off JWT
+const signout = (dispatch) => async () => {
+    await AsyncStorage.removeItem("token");
+    dispatch({ type: "signout" });
+    navigate("Signin");
 };
 
 export const { Provider, Context } = createDataContext(
