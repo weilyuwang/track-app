@@ -7,12 +7,20 @@ const authReducer = (state, action) => {
     switch (action.type) {
         case "add_error":
             return { ...state, errorMessage: action.payload };
+        case "clear_error_message":
+            return { ...state, errorMessage: "" };
         case "signin":
             // error out the error message and set the JWT
             return { errorMessage: "", token: action.payload };
         default:
             return state;
     }
+};
+
+const clearErrorMessage = (dispatch) => () => {
+    dispatch({
+        type: "clear_error_message",
+    });
 };
 
 // define actions
@@ -68,6 +76,6 @@ const signout = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, signup },
+    { signin, signout, signup, clearErrorMessage },
     { token: null, errorMessage: "" }
 );
