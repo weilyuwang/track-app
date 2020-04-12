@@ -1,56 +1,24 @@
 //import "../_mockLocation";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import Map from "../components/Map";
-import { SafeAreaView } from "react-navigation";
-import {
-    requestPermissionsAsync,
-    watchPositionAsync,
-    Accuracy,
-} from "expo-location";
-import * as Permissions from "expo-permissions";
+import { SafeAreaView, withNavigationFocus } from "react-navigation";
 import { Context as LocationContext } from "../context/LocationContext";
+import useLocation from "../hooks/useLocation";
 
-const TrackCreateScreen = () => {
+// withNavigationFocus is a higher-order component, will pass a prop `isFocused` to its children
+const TrackCreateScreen = ({ isFocused }) => {
     const { addLocation } = useContext(LocationContext);
 
-    const [error, setError] = useState(null);
-
-    const startWatching = async () => {
-        try {
-            await requestPermissionsAsync();
-            // the following requests will be handled by OS automatically based on the user's first action
-        } catch (err) {
-            // if user denies, the flow will fall to catch block
-            setError(err);
-        }
-        // const location = await Permissions.askAsync(Permissions.LOCATION);
-        // if (location.status !== "granted") {
-        //     setError("error");
-        // }
-
-        // function to fetch user's current location data
-        await watchPositionAsync(
-            {
-                accuracy: Accuracy.BestForNavigation,
-                timeInterval: 1000, // once every 1 second
-                distanceInterval: 10, // once every 10 meters
-            },
-            (location) => {
-                addLocation(location);
-            }
-        );
-    };
-
-    useEffect(() => {
-        startWatching();
-    }, []); //[] means we only want to run startWatching() only once when the screen loads
+    // use custom hook to handle location-related aspects
+    const [error] = useLocation(addLocation);
 
     return (
         <SafeAreaView>
             <Text h2>Create a Track</Text>
             <Map />
+            {/* <NavigationEvents onWillBlur={() => console.log("LEAVING")} /> */}
             {error ? <Text>Please enable location services</Text> : null}
         </SafeAreaView>
     );
@@ -58,4 +26,4 @@ const TrackCreateScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);
