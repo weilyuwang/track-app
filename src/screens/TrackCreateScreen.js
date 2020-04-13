@@ -7,6 +7,7 @@ import { SafeAreaView, withNavigationFocus } from "react-navigation";
 import { Context as LocationContext } from "../context/LocationContext";
 import useLocation from "../hooks/useLocation";
 import TrackForm from "../components/TrackForm";
+import Spacer from "../components/Spacer";
 
 // withNavigationFocus is a higher-order component, will pass a prop `isFocused` to its children
 const TrackCreateScreen = ({ isFocused }) => {
@@ -28,8 +29,13 @@ const TrackCreateScreen = ({ isFocused }) => {
 
     return (
         <SafeAreaView>
-            <Text h2>Create a Track</Text>
-            <Map />
+            <Spacer>
+                <Text h3>Create a Track</Text>
+            </Spacer>
+            <Spacer>
+                <Map />
+            </Spacer>
+
             {/* <NavigationEvents onWillBlur={() => console.log("LEAVING")} /> */}
             {error ? <Text>Please enable location services</Text> : null}
             <TrackForm />
