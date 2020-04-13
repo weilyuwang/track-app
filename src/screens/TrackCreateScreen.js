@@ -1,5 +1,5 @@
 //import "../_mockLocation";
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import Map from "../components/Map";
@@ -10,13 +10,21 @@ import TrackForm from "../components/TrackForm";
 
 // withNavigationFocus is a higher-order component, will pass a prop `isFocused` to its children
 const TrackCreateScreen = ({ isFocused }) => {
-    const { addLocation } = useContext(LocationContext);
+    const {
+        state: { recording },
+        addLocation,
+    } = useContext(LocationContext);
     // use custom hook to handle location-related aspects
     // pass isFocused var to useLocation hook - to decide if we should continue locating current user
     // and pass addLocation() callback function to the useLocation hook for it to use
-    const [error] = useLocation(isFocused, (location) => {
-        addLocation(location);
-    });
+    const callback = useCallback(
+        (location) => {
+            addLocation(location);
+        },
+        [recording]
+    );
+
+    const [error] = useLocation(isFocused || recording, callback);
 
     return (
         <SafeAreaView>
