@@ -12,15 +12,24 @@ const TrackDetailScreen = ({ navigation }) => {
     const track = state.find((t) => t._id === _id);
     const initialCoords = track.locations[0].coords;
 
-    const end_timestamp = track.locations[track.locations.length - 1].timestamp;
-    const start_timestamp = track.locations[0].timestamp;
+    const end_timestamp = track.locations[
+        track.locations.length - 1
+    ].timestamp.toString();
+
+    const start_timestamp = track.locations[0].timestamp.toString();
+
+    const moment_start = moment.unix(start_timestamp.substring(0, 10));
+    const moment_end = moment.unix(end_timestamp.substring(0, 10));
+
+    const moment_duration_seconds = moment
+        .duration(moment_end.diff(moment_start))
+        .asSeconds();
 
     return (
         <>
             <Spacer>
                 <Text h4>{track.name}</Text>
             </Spacer>
-
             <Spacer>
                 <MapView
                     style={styles.map}
@@ -37,19 +46,21 @@ const TrackDetailScreen = ({ navigation }) => {
                     />
                 </MapView>
             </Spacer>
-
             <Spacer>
-                <Text>Start timestamp: {start_timestamp}</Text>
+                <Text>
+                    Start Time: {moment_start.format("YYYY-MM-DD HH:mm:ss")}
+                </Text>
             </Spacer>
-
             <Spacer>
-                <Text>End timestamp: {end_timestamp}</Text>
+                <Text>
+                    End Time: {moment_end.format("YYYY-MM-DD HH:mm:ss")}
+                </Text>
             </Spacer>
 
             <Spacer>
                 <Text>
-                    Start time:{" "}
-                    {moment.unix(start_timestamp).format("YYYY-MM-DD HH:mm")}
+                    Duration : {Math.floor(moment_duration_seconds / 60)}{" "}
+                    minutes {moment_duration_seconds % 60} seconds
                 </Text>
             </Spacer>
         </>
