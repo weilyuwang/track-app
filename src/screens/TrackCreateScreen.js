@@ -8,6 +8,7 @@ import { Context as LocationContext } from "../context/LocationContext";
 import useLocation from "../hooks/useLocation";
 import TrackForm from "../components/TrackForm";
 import Spacer from "../components/Spacer";
+import { FontAwesome } from "@expo/vector-icons";
 
 // withNavigationFocus is a higher-order component, will pass a prop `isFocused` to its children
 const TrackCreateScreen = ({ isFocused }) => {
@@ -41,6 +42,11 @@ const TrackCreateScreen = ({ isFocused }) => {
             <TrackForm />
         </SafeAreaView>
     );
+};
+
+TrackCreateScreen.navigationOptions = {
+    title: "Add Track",
+    tabBarIcon: <FontAwesome name="plus-circle" size={25} />,
 };
 
 const styles = StyleSheet.create({});
