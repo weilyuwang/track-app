@@ -19,7 +19,7 @@ const TrackListScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 navigation.navigate("TrackDetail", {
-                                    id: item._id,
+                                    _id: item._id,
                                 });
                             }}
                         >
